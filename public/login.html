@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Webstore</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="backgroundnav">
+            <ul class="navbarlinks">
+            <li><a class="navlogo" href="index.html">Logo.Shop</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">test</a></li>
+            <li><a href="Om oss.html">Om oss</a></li>
+            <input class="searchbar" placeholder="Search" type="text">
+        </ul>
+        </div>
+
+    </nav>
+
+    <div class="logincontainer">
+
+        <div class="signinbox">/*### SIGN IN ###*/
+            <input placeholder="Email" type="email" id="signin-email">
+            <input placeholder="password" type="password" id="signin-password">
+
+            <button onclick="signIn()" >Sign In</button>
+            <p id="signin-msg"></p>
+        </div>
+
+        <div class="signupbox">  /*### SIGNUP ###*/
+            <input placeholder="Email" type="email" id="signup-email">
+            <input placeholder="password" type="password" id="signup-password">
+
+            <button onclick="signUp()" >Sign up</button>
+            <p id="signup-msg"></p>
+        </div>
+
+
+    </div>
+
+    <script>
+
+
+        async function signUp() {
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+
+            const res = await fetch('/signup', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json'},
+                body: JSON.stringify({ email, password})
+            });
+        /* 
+        fetch() sends the data to your Express server at /signup.
+
+        method: 'POST' — you're sending data, not requesting a page
+        headers — tells the server the data is JSON
+        body — the actual data, converted to a JSON string 
+        */
+            const data = await res.json();
+            document.getElementById('signup-msg'). textContent = data.message;
+        }
+
+        async function signIn() {
+            const email = document.getElementById('signin-email').value;
+            const password = document.getElementById('signin-password').value;
+
+            const res = await fetch('/signin', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify ({ email, password })
+            });
+
+            const data = await res.json();
+            document.getElementById('signin-msg').textContent = data.message;
+
+            if (res.ok) {
+                window.location.href = '/dashboard';
+            }
+
+        }
+
+
+    </script>
+</body>
+</html>

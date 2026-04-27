@@ -1,0 +1,108 @@
+*{
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    color: inherit;
+    list-style: none;
+}
+body{
+    display: flex;
+    flex-direction: column;
+}
+
+.navbar{ 
+    display: flex;
+    flex-direction: row;
+    height: 3rem;
+    margin-top: 3vh;
+}
+.navbarlinks{
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.3rem;
+    font-family: 'Bruno Ace SC', sans-serif;
+    background-color: rgba(235, 235, 235, 0.557);
+    height: 3rem;
+    margin-left: 10vw;
+    padding: 0.3vw;
+    border-radius: 20px;
+}
+.logginbtn{
+    display: flex;
+    align-items: center;
+    font-size: 1.3rem;
+    font-family: 'Bruno Ace SC', sans-serif;
+    background-color: rgba(235, 235, 235, 0.557);
+    height: 3rem;
+    margin-left: auto;
+    margin-right: 5vw;
+    padding: 0.3vw;
+    border-radius: 20px;
+}
+.navlogo{
+    font-size: 1.7rem;
+    margin-right: 10vw;
+}
+.searchbar{
+    height: 2rem;
+    border-radius: 20px;
+    padding-left: 10px;
+
+}
+.backgroundnav{
+    height: 3rem;
+
+    padding: 0.3vw;
+    display: flex;
+    align-items: center;
+    width: 100%;
+    border-color: black;
+    border-style: dashed;
+}
+
+
+
+
+
+
+
+/* ############################ */
+/* ############################ */
+/* LOGGIN START */
+/* ############################ */
+/* ############################ */
+.logincontainer{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 90vh;
+    gap: 2vw;
+
+}
+.signinbox, .signupbox{
+    background-color: rgba(235, 235, 235, 0.557);
+    padding: 3vw;
+    border-radius: 20px;
+    border-color: black;
+    border-style: dashed;
+
+    display: flex;
+    flex-direction: column;
+}
+
+
+
+
+
+
+
+
+
+
+
+/* ############################ */
+/* ############################ */
+/* LOGGIN END */
+/* ############################ */
+/* ############################ */
