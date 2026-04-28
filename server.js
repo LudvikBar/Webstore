@@ -23,3 +23,10 @@ express.static(...) — serves everything in your public/ folder
 automatically. This is how your HTML and CSS files 
 get sent to the browser
 */
+
+app.use(session({
+    secret: 'ksdoeqmxcnbaieqlpory',
+    resave: false,
+    saveUninitialized: false,
+    cookie: { secure: false }
+}))
