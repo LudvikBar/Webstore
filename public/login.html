@@ -17,27 +17,42 @@
             <li><a href="Om oss.html">Om oss</a></li>
             <input class="searchbar" placeholder="Search" type="text">
         </ul>
+
+            <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
         </div>
 
     </nav>
 
     <div class="logincontainer">
 
-        <div class="signinbox">/*### SIGN IN ###*/
-            <input placeholder="Email" type="email" id="signin-email">
-            <input placeholder="password" type="password" id="signin-password">
+        <div class="signincontainer">
 
-            <button onclick="signIn()" >Sign In</button>
-            <p id="signin-msg"></p>
+            <h1 class="headerauth">Sign In</h1>
+
+            <div class="signinbox"><!-- #####SIGN IN##### -->
+                <input class="authinputbox" placeholder="Email" type="email" id="signin-email">
+                <input class="authinputbox" placeholder="Password" type="password" id="signin-password">
+
+                <button class="authbtnbox" onclick="signIn()" >Sign In</button>
+                <p id="signin-msg"></p>
+            </div>
         </div>
 
-        <div class="signupbox">  /*### SIGNUP ###*/
-            <input placeholder="Email" type="email" id="signup-email">
-            <input placeholder="password" type="password" id="signup-password">
 
-            <button onclick="signUp()" >Sign up</button>
-            <p id="signup-msg"></p>
+
+        <div class="signupcontainer">
+
+            <h1 class="headerauth">Sign Up</h1>
+
+            <div class="signupbox">  <!-- ######SIGN UP#### -->
+                <input class="authinputbox" placeholder="Email" type="email" id="signup-email">
+                <input class="authinputbox" placeholder="Password" type="password" id="signup-password">
+
+                <button class="authbtnbox" onclick="signUp()" >Sign up</button>
+                <p id="signup-msg"></p>
+            </div>
         </div>
+
 
 
     </div>
@@ -84,6 +99,22 @@
 
         }
 
+
+        async function signOut() {
+            await fetch('/signout', {method: 'POST'});
+            window.location.href = '/login.html';
+        }
+
+        async function checkSession(){
+            const res = await fetch('/check-session');
+            const data = await res.json();
+
+            if (data.loggedIn) {
+                document.getElementById('signout-btn'). style.display = 'block';
+            }
+        }
+
+        checkSession();
 
     </script>
 </body>

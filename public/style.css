@@ -77,7 +77,7 @@ body{
     align-items: center;
     justify-content: center;
     height: 90vh;
-    gap: 2vw;
+    gap: 10vw;
 
 }
 .signinbox, .signupbox{
@@ -89,12 +89,35 @@ body{
 
     display: flex;
     flex-direction: column;
+    gap: 1vw;
 }
 
+.authinputbox{
+    height: 2rem;
+    width: 15vw;
+    border-color: black;
+    border-style: dashed;
+    border-width: 1.5px;
+    padding-left: 5px;
+    border: 1.5px solid #000;
+    border-radius: 0.5rem;
+    box-shadow: 2.5px 3px 0 #000;
+    outline: none;
+    transition: ease 0.25s;
 
-
-
-
+}
+.authinputbox:focus{
+    box-shadow: 5.5px 7px 0 black;
+}
+.authbtnbox{
+    height: 2rem;
+    margin-top: 10%;
+    font-family: 'Bruno Ace SC', sans-serif;
+}
+.headerauth{
+    font-family: 'Bruno Ace SC', sans-serif;
+    margin-left: 1vw;
+}
 
 
 
