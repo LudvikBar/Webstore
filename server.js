@@ -33,7 +33,7 @@ app.use(session({
 }))
 /* 
 secret — a private key used to sign the cookie 
-so it can't be faked. Change this to something long and random
+so it can't be faked. 
 
 resave: false — don't save the session if nothing changed
 saveUninitialized: false — don't create a session until the user actually logs in
@@ -165,4 +165,4 @@ res.sendFile — if they are logged in, serve the dashboard page
 
 
 
-app.listen(3000, () => console.log('Server running on https://localhost:3000'));
+app.listen(5700, () => console.log('Server running on http://localhost:3000'));
