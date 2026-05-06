@@ -18,6 +18,7 @@
             <input class="searchbar" placeholder="Search" type="text">
         </ul>
                         <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
+                        <p id="loggedinuserID"></p>
             <a class="logginbtn" href="login.html">Loggin</a>
         </div>
 
@@ -107,6 +108,23 @@
 
 
 <script>
+
+
+    async function userloggedin(){
+        const res = await fetch('/getemail');
+        const data = await res.json();
+
+        if (data.email) {
+            document.getElementById('loggedinuserID').textContent = data.email;
+        }
+        else {
+            document.getElementById('loggedinuserID').textContent = data.email;
+            
+        }
+
+    }
+
+
 
     async function checkSession(){
         const res = await fetch('/check-session');
