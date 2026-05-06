@@ -153,14 +153,14 @@ app.get('/check-session', (req, res) => {
 app.get('/getemail', (req, res) => {
     
     if (req.session.userId) {
-        res.json({ email: req.session.userEmail })
+        res.json({ email: req.session.userEmail });
     } 
     else {
-        res.json('Error')
+        res.json('Error');
     }
 
 
-})
+});
 
 
 app.get('/dashboard', (req, res) => {
