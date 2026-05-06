@@ -122,6 +122,7 @@ const user = rows[0] — grabs the first result since email is unique there will
 */
 
     req.session.userId = user.id;
+    req.session.userEmail = user.email;
     res.json ({ message: 'Signed In!'});
     /*
     req.session.userId — saves the users id into the session. This is how the server remembers who is logged in for future requests
