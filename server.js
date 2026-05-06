@@ -155,7 +155,7 @@ app.get('/getemail', (req, res) => {
     if (req.session.userId) {
         res.json({ email: req.session.userEmail });
     } else {
-        res.json({ email: 'error'});
+        res.json({ email: null });
     }
 
 
