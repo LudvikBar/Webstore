@@ -65,7 +65,7 @@ req.body — the email and password sent from your HTML
 the if check — makes sure both fields are actually filled in before doing anything. 400 means "bad request"
     */
     try {
-        const [rows] = await db.query('SELECT id FROM users WHERE email = ?', [email]);
+        const [rows] = await db.query('SELECT id FROM Users WHERE email = ?', [email]);
         if (rows.length > 0) {
             return res.status(409).json({ message: 'Email already registered' });
         }
@@ -77,7 +77,7 @@ the if check — makes sure both fields are actually filled in before doing anyt
     409 — means "conflict", something already exists
     */
         const hash = await bcrypt.hash(password, 12);
-        await db.query('INSERT INTO users (email, password_hash) VALUES (?, ?)', [email, hash]);
+        await db.query('INSERT INTO Users (email, password_hash) VALUES (?, ?)', [email, hash]);
 
         res.status(201).json({ message: 'Account created! You can now sign in.'});
 
@@ -98,7 +98,7 @@ app.post('/signin', async (req, res) => {
     const { email, password } = req.body;
 
     try {
-        const [rows] = await db.query(' SELECT * FROM users WHERE email = ?', [email]);
+        const [rows] = await db.query(' SELECT * FROM Users WHERE email = ?', [email]);
 
         if (rows.length === 0) {
             return res.status(401).json({ message: 'Invalid email or password.' });
@@ -149,6 +149,20 @@ app.get('/check-session', (req, res) => {
 });
 
 
+
+app.get('/getemail', (req, res) => {
+    
+    if (req.session.userId) {
+        res.json({ email: req.session.userEmail })
+    } 
+    else {
+        res.json('Error')
+    }
+
+
+})
+
+
 app.get('/dashboard', (req, res) => {
     if (!req.session.userId) {
         return res.redirect('/login.html');
@@ -165,4 +179,4 @@ res.sendFile — if they are logged in, serve the dashboard page
 
 
 
-app.listen(5700, () => console.log('Server running on http://localhost:3000'));
+app.listen(5700, () => console.log('Server running on http://localhost:5700 and 10.2.3.26:5700'));
