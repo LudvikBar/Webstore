@@ -43,7 +43,7 @@ cookie: { secure: false } — set this to true later when you add HTTPS on your 
 const db = mysql.createPool({
     host: 'localhost',
     user: 'auth_user',
-    password: 'db pass',
+    password: 'password',
     database: 'auth_app'
 });
 /* A pool is for keeping a set of connections to the database open at all times for faster overall prosessing */
