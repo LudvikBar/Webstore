@@ -4,7 +4,7 @@
     text-decoration: none;
     color: inherit;
     list-style: none;
-    
+    --complementaryColor: #4f3a68;
 }
 body{
     display: flex;
@@ -72,6 +72,9 @@ body{
   border-radius: 5px;
   border-style: dashed;
   font-family: 'Bruno Ace SC', sans-serif;
+}
+#signout-btn:hover{
+  background-color: var(--complementaryColor);
 }
 
 
