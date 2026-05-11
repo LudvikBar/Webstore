@@ -19,6 +19,7 @@
         </ul>
 
             <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
+            <p id="loggedinuserID"></p>
         </div>
 
     </nav>
@@ -58,6 +59,22 @@
     </div>
 
     <script>
+
+
+
+        async function userloggedin(){
+            const res = await fetch('/getemail');
+            const data = await res.json();
+
+            if (data.email) {
+                document.getElementById('loggedinuserID').textContent = data.email;
+            } else {
+                document.getElementById('loggedinuserID').textContent = data.email;
+            
+            }
+
+        }
+    userloggedin();
 
 
         async function signUp() {
