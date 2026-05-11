@@ -19,7 +19,7 @@
         </ul>
             <p id="loggedinuserID"></p>
             <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
-            <a class="logginbtn" href="login.html">Loggin</a>
+            <a id="logginbtnID" class="logginbtn" href="login.html">Loggin</a>
         </div>
 
         
@@ -131,6 +131,7 @@ userloggedin();
 
         if (data.loggedIn) {
             document.getElementById('signout-btn'). style.display = 'block';
+            document.getElementById('logginbtnID'). style.display = 'none';
         }
     }
 
