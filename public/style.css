@@ -64,13 +64,14 @@ body{
 }
 
 
-#loggedinuserID{
+#loggedinuserID, #signout-btn{
   margin-left: 20px;
   padding: 10px;
   border-width: 3px;
   border-color: #000000;
   border-radius: 5px;
   border-style: dashed;
+  font-family: 'Bruno Ace SC', sans-serif;
 }
 
 
@@ -101,6 +102,7 @@ body{
     gap: 1vw;
 }
 
+
 .authinputbox{
     height: 2rem;
     width: 15vw;
@@ -127,7 +129,6 @@ body{
     font-family: 'Bruno Ace SC', sans-serif;
     margin-left: 1vw;
 }
-
 
 
 

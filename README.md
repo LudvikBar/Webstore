@@ -22,10 +22,11 @@ The project will utilize express and express-session + bcrypt and MySQL/MariaDB.
 
 2. Make sure you have node.js installed. 
 
+3. Go into the repo folder
 
 3. Run the following:
 
     > npm install
 
-    To run the project:
+    **To run the project:**
     >npm start
