@@ -177,6 +177,14 @@ res.redirect — sends the user to a different page
 res.sendFile — if they are logged in, serve the dashboard page
 */
 
-
+app.get('/products', async (req, res) =>{
+    try {
+        const [rows] = await db.query('SELECT * FROM products');
+        res.json(rows);
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error. '});
+    }
+});
 
 app.listen(5700, () => console.log('Server running on http://localhost:5700 and 10.2.3.26:5700'));

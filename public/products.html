@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Bruno+Ace+SC&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Webstore</title>
+</head>
+<body>
+    <nav class="navbar">
+        <div class="backgroundnav">
+            <ul class="navbarlinks">
+            <li><a class="navlogo" href="index.html">LsbPrint</a></li>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="products.html">Produkter</a></li>
+            <li><a href="Om oss.html">Om oss</a></li>
+            <input class="searchbar" placeholder="Search" type="text">
+        </ul>
+            <p id="loggedinuserID"></p>
+            <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
+            <a id="logginbtnID" class="logginbtn" href="login.html">Loggin</a>
+        </div>
+
+        
+    </nav>
+
+
+    <div class="addstripe2">
+        <div class="customordertxt"><p>Ingenting her passer?   Legg in custom bestilling for å få det du trenger!</p><p>Send en melding til: mail@mail.com</p></div>
+
+    </div>
+
+
+
+
+
+
+
+
+<script>
+
+
+
+
+
+    async function userloggedin(){
+        const res = await fetch('/getemail');
+        const data = await res.json();
+
+        if (data.email) {
+            document.getElementById('loggedinuserID').textContent = data.email;
+        } else {
+            document.getElementById('loggedinuserID').textContent = data.email;
+            
+        }
+
+    }
+userloggedin();
+
+
+    async function checkSession(){
+        const res = await fetch('/check-session');
+        const data = await res.json();
+
+        if (data.loggedIn) {
+            document.getElementById('signout-btn'). style.display = 'block';
+            document.getElementById('logginbtnID'). style.display = 'none';
+        }
+    }
+
+    checkSession();
+    
+    async function signOut(){
+        await fetch('/signout', { method: 'POST' });
+        window.location.href = '/login.html';
+    }
+
+    async function loadProducts() {
+        const res   = await fetch('/products');
+        const products = await res.json();
+
+        displayProducts(products);
+    }
+
+    function displayProducts(products) {
+        const container = document.getElementById('product-list');
+        container.innerHTML = '';
+
+        products.forEach(product => {
+            container.innerHTML += `
+                <div class="card">
+    <div class="card-img"> <img src="/images/${product.image}" alt="${product.name}">  </div>
+    <div class="card-title">${product.name}</div>
+    <div class="card-subtitle">${product.description}</div>
+    <hr class="card-divider">
+    <div class="card-footer">
+        <div class="card-price"><span>kr</span>${product.price}</div>
+        <button class="card-btn">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path d="m397.78 316h-205.13a15 15 0 0 1 -14.65-11.67l-34.54-150.48a15 15 0 0 1 14.62-18.36h274.27a15 15 0 0 1 14.65 18.36l-34.6 150.48a15 15 0 0 1 -14.62 11.67zm-193.19-30h181.25l27.67-120.48h-236.6z"></path><path d="m222 450a57.48 57.48 0 1 1 57.48-57.48 57.54 57.54 0 0 1 -57.48 57.48zm0-84.95a27.48 27.48 0 1 0 27.48 27.47 27.5 27.5 0 0 0 -27.48-27.47z"></path><path d="m368.42 450a57.48 57.48 0 1 1 57.48-57.48 57.54 57.54 0 0 1 -57.48 57.48zm0-84.95a27.48 27.48 0 1 0 27.48 27.47 27.5 27.5 0 0 0 -27.48-27.47z"></path><path d="m158.08 165.49a15 15 0 0 1 -14.23-10.26l-25.71-77.23h-47.44a15 15 0 1 1 0-30h58.3a15 15 0 0 1 14.23 10.26l29.13 87.49a15 15 0 0 1 -14.23 19.74z"></path></svg>
+        </button>
+    </div>
+</div>
+                `;
+        });
+    }
+
+
+    loadProducts();
+</script>
+</body>
+</html>
+
