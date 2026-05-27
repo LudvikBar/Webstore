@@ -6,24 +6,27 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="style.css">
     <title>Webstore</title>
-</head>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
 <body>
-    <nav class="navbar">
-        <div class="backgroundnav">
-            <ul class="navbarlinks">
+<nav class="navbar">
+    <div class="backgroundnav">
+        <ul class="navbarlinks">
             <li><a class="navlogo" href="index.html">LsbPrint</a></li>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="products.html">Produkter</a></li>
-            <li><a href="Om oss.html">Om oss</a></li>
-            <input class="searchbar" placeholder="Search" type="text">
+            <li id="navbarId"><a href="index.html">Home</a></li>
+            <li id="navbarId"><a href="products.html">Produkter</a></li>
+            <li id="navbarId"><a href="Om oss.html">Om oss</a></li>
+            <li class="search-wrapper">
+                <input class="searchbar" id="search" placeholder="Search" type="text" oninput="handleSearch()">
+                <div id="search-overlay">
+                    <div id="search-results"></div>
+                </div>
+            </li>
         </ul>
-
-            <p id="loggedinuserID"></p>
-            <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
-            
-        </div>
-
-    </nav>
+        <p id="loggedinuserID"></p>
+        <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
+        <a id="logginbtnID" class="logginbtn" href="login.html">Loggin</a>
+    </div>
+</nav>
 
     <div class="logincontainer">
 
@@ -133,6 +136,70 @@
         }
 
         checkSession();
+
+let allProducts = [];
+
+async function fetchProducts() {
+  if (allProducts.length === 0) {
+    const res  = await fetch('/products');
+    allProducts = await res.json();
+  }
+}
+
+async function handleSearch() {
+  const query   = document.getElementById('search').value.toLowerCase();
+  const overlay = document.getElementById('search-overlay');
+  const results = document.getElementById('search-results');
+
+  if (query.trim() === '') {
+    overlay.classList.remove('active');
+    return;
+  }
+
+  await fetchProducts();
+
+  const filtered = allProducts.filter(product =>
+    product.name.toLowerCase().includes(query) ||
+    product.description.toLowerCase().includes(query)
+  );
+
+  if (filtered.length === 0) {
+    results.innerHTML = '<p style="padding:10px">No results found.</p>';
+  } else {
+    results.innerHTML = filtered.map(product => `
+      <div class="search-item" onclick="goToProduct(${product.id})">
+        <img src="/images/${product.image}" alt="${product.name}">
+        <div class="search-item-info">
+          <span class="search-item-name">${product.name}</span>
+          <span class="search-item-price">kr ${product.price}</span>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  overlay.classList.add('active');
+}
+
+function goToProduct(id) {
+  window.location.href = '/products.html?id=' + id;
+}
+
+// Close overlay when clicking outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.searchbar') && !e.target.closest('#search-overlay')) {
+    document.getElementById('search-overlay').classList.remove('active');
+  }
+});
+
+// Press enter to go to products page
+document.getElementById('search').addEventListener('keydown', (e) => {
+  if (e.key === 'Enter') {
+    const query = document.getElementById('search').value;
+    if (query.trim() !== '') {
+      window.location.href = '/products.html?search=' + encodeURIComponent(query);
+    }
+  }
+});
 
     </script>
 </body>
