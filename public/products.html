@@ -15,18 +15,34 @@
             <li id="navbarId"><a href="index.html">Home</a></li>
             <li id="navbarId"><a href="products.html">Produkter</a></li>
             <li id="navbarId"><a href="Om oss.html">Om oss</a></li>
+
+
+        </ul>
+        <p id="loggedinuserID"></p>
+        <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
+        <a id="logginbtnID" class="logginbtn" href="login.html">Loggin</a>
+
+    <li class="menu-btn-wrapper">
+        <span class="material-symbols-outlined menu-btn" onclick="toggleMenu()">menu</span>
+    </li>
+    </div>
+</nav>
+
+<div class="sidenavbar">
             <li class="search-wrapper">
                 <input class="searchbar" id="search" placeholder="Search" type="text" oninput="handleSearch()">
                 <div id="search-overlay">
                     <div id="search-results"></div>
                 </div>
             </li>
-        </ul>
-        <p id="loggedinuserID"></p>
-        <button id="signout-btn" onclick="signOut()" style="display:none">Sign Out</button>
-        <a id="logginbtnID" class="logginbtn" href="login.html">Loggin</a>
-    </div>
-</nav>
+
+            <li class="sidenavbarclass"><a href="index.html">LsbPrint</a></li>
+            <li class="sidenavbarclass"><a href="index.html">Home</a></li>
+            <li class="sidenavbarclass"><a href="products.html">Produkter</a></li>
+            <li class="sidenavbarclass"><a href="Om oss.html">Om oss</a></li>
+
+</div>
+
 
 
     <div class="addstripe2">
@@ -179,14 +195,32 @@ function goToProduct(id) {
   window.location.href = '/products.html?id=' + id;
 }
 
-// Close overlay when clicking outside
+
+
+
+
+let menustatus = 0;
+
+function toggleMenu() {
+  const sidebarlinks = document.querySelectorAll('.sidenavbar');
+
+  if (menustatus === 0) {
+    sidebarlinks.forEach(nav => nav.style.display = "inline");
+    menustatus = 1;
+  } else if (menustatus === 1) {
+    sidebarlinks.forEach(nav => nav.style.display = "none");
+    menustatus = 0;
+  }
+}
+
+// Searchbar - close overlay when clicking outside
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.searchbar') && !e.target.closest('#search-overlay')) {
     document.getElementById('search-overlay').classList.remove('active');
   }
 });
 
-// Press enter to go to products page
+// Searchbar - Press enter to go to products page
 document.getElementById('search').addEventListener('keydown', (e) => {
   if (e.key === 'Enter') {
     const query = document.getElementById('search').value;
