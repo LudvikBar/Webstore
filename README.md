@@ -30,3 +30,45 @@ The project will utilize express and express-session + bcrypt and MySQL/MariaDB.
 
     **To run the project:**
     >npm start
+    
+
+
+
+
+
+
+
+## Mariadb
+The code bellow is for setup of the database, tables and user. Feel free to change the names and passwords and note that changing it will result in changes needed in other areas. Three placeholder products are also included.
+
+```
+CREATE DATABASE auth_app;
+USE auth_app;
+
+
+CREATE TABLE Users (
+  id            INT           AUTO_INCREMENT PRIMARY KEY,
+  email         VARCHAR(255)  NOT NULL UNIQUE,
+  password_hash VARCHAR(255)  NOT NULL,
+  created_at    TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE products (
+  id          INT           AUTO_INCREMENT PRIMARY KEY,
+  name        VARCHAR(255)  NOT NULL,
+  description TEXT,
+  price       DECIMAL(10,2) NOT NULL,
+  image       VARCHAR(255),
+  created_at  TIMESTAMP     DEFAULT CURRENT_TIMESTAMP
+);
+
+INSERT INTO products (name, description, price, image) VALUES
+('Product 1', 'This is product 1', 9.99,  'product1.jpg'),
+('Product 2', 'This is product 2', 19.99, 'product2.jpg'),
+('Product 3', 'This is product 3', 29.99, 'product3.jpg');
+
+CREATE USER 'auth_user'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT, INSERT, UPDATE, DELETE ON auth_app.* TO 'auth_user'@'localhost';
+FLUSH PRIVILEGES;
+
+```
