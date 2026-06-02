@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="style.css">
     <title>Webstore</title>
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200&icon_names=menu" />
+</head>
+
 <body>
 <nav class="navbar">
     <div class="backgroundnav">
@@ -29,17 +31,22 @@
 </nav>
 
 <div class="sidenavbar">
+
+            <li class="sidenavbarlinklogo"><a href="index.html">LsbPrint</a></li>
+
             <li class="search-wrapper">
-                <input class="searchbar" id="search" placeholder="Search" type="text" oninput="handleSearch()">
-                <div id="search-overlay">
-                    <div id="search-results"></div>
-                </div>
+  <input class="searchbar" id="search-side" placeholder="Search" type="text" oninput="handleSearch('side')">
+<div id="search-overlay-side">
+    <div id="search-results-side"></div>
+</div>
             </li>
 
-            <li class="sidenavbarclass"><a href="index.html">LsbPrint</a></li>
-            <li class="sidenavbarclass"><a href="index.html">Home</a></li>
-            <li class="sidenavbarclass"><a href="products.html">Produkter</a></li>
-            <li class="sidenavbarclass"><a href="Om oss.html">Om oss</a></li>
+
+            <div class="sidenavbarbottontwo">
+            <li class="sidenavbarlinks"><a href="products.html">Produkter</a></li>
+            <li class="sidenavbarlinks"><a href="Om oss.html">Om oss</a></li>
+            </div>
+
 
 </div>
 
@@ -52,7 +59,7 @@
 
 
 
-<input id="search" placeholder="Søk etter produkt..." type="text" oninput="searchProducts()">
+<input id="product-search" placeholder="Søk etter produkt..." type="text" oninput="searchProducts()">
 
 <div id="product-list"></div>
 
@@ -63,7 +70,7 @@
 
 
 
-
+// Display logged in users email in the navbar
     async function userloggedin(){
         const res = await fetch('/getemail');
         const data = await res.json();
@@ -78,7 +85,7 @@
     }
 userloggedin();
 
-
+// Show signout button and hide login button if user is logged in
     async function checkSession(){
         const res = await fetch('/check-session');
         const data = await res.json();
@@ -90,19 +97,16 @@ userloggedin();
     }
 
     checkSession();
-    
+
+// Sign out and redirect to login page
     async function signOut(){
         await fetch('/signout', { method: 'POST' });
         window.location.href = '/login.html';
     }
 
-    async function loadProducts() {
-        const res   = await fetch('/products');
-        const products = await res.json();
 
-        displayProducts(products);
-    }
 
+// Build and inject product cards into the product-list div
     function displayProducts(products) {
         const container = document.getElementById('product-list');
         container.innerHTML = '';
@@ -123,25 +127,26 @@ userloggedin();
 </div>
                 `;
         });
-    }
+    };
 
 
     let allProducts = [];
 
+// Filter displayed products based on search input
     async function loadProducts() {
         const res      = await fetch('/products');
         allProducts    = await res.json();
         displayProducts(allProducts);
         };
 
-    function searchProducts() {
-        const query    = document.getElementById('search').value.toLowerCase();
-        const filtered = allProducts.filter(product =>
-            product.name.toLowerCase().includes(query) ||
-            product.description.toLowerCase().includes(query)
-        );
-        displayProducts(filtered);
-        };
+function searchProducts() {
+    const query    = document.getElementById('product-search').value.toLowerCase();
+    const filtered = allProducts.filter(product =>
+        product.name.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query)
+    );
+    displayProducts(filtered);
+}
 
 
     loadProducts();
@@ -149,14 +154,14 @@ userloggedin();
 
 
 
-
+// Fetch products once and cache them to avoid repeated server calls
 async function fetchProducts() {
   if (allProducts.length === 0) {
     const res  = await fetch('/products');
     allProducts = await res.json();
   }
 }
-
+// Handle search input — show overlay with matching products
 async function handleSearch() {
   const query   = document.getElementById('search').value.toLowerCase();
   const overlay = document.getElementById('search-overlay');
@@ -191,6 +196,7 @@ async function handleSearch() {
   overlay.classList.add('active');
 }
 
+// Redirect to product page with id in URL
 function goToProduct(id) {
   window.location.href = '/products.html?id=' + id;
 }
@@ -198,7 +204,7 @@ function goToProduct(id) {
 
 
 
-
+// Toggle mobile sidebar menu open and closed
 let menustatus = 0;
 
 function toggleMenu() {

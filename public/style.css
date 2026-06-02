@@ -228,6 +228,13 @@ span.menu-btn {
 
 
 }
+@media (min-width: 901px) {
+.sidenavbar {
+    display: none !important;
+}
+
+}
+
 
 
 @media (max-width: 900px) {
@@ -433,13 +440,16 @@ then set the desired styles for .card-img. */
 
 
 .card-img {
-    /* clear and add new css */
   transition: all 0.5s;
   display: flex;
   justify-content: center;
+  align-items: center;
 }
-.prodimg{
-  max-width: 20vh;
+
+.prodimg {
+  width: 80%;      /* Percentage of .card-img */
+  max-width: 20vh; 
+  height: auto;
   border-radius: 10px;
 }
 #product-list{
