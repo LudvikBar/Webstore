@@ -5,12 +5,11 @@ const session = require('express-session');
 const path = require('path');
 const { hostname } = require('os');
 
-
-
-
+// ============================================
+// SERVER INITIALIZATION & MIDDLEWARE SETUP
+// ============================================
 
 const app = express(); /* starts express server, this is like turning on the server*/
-
 
 app.use(express.json());
 app.use(express.static(path.join(__dirname, 'public')));
@@ -40,6 +39,10 @@ saveUninitialized: false — don't create a session until the user actually logs
 cookie: { secure: false } — set this to true later when you add HTTPS on your domain. Keep it false for local development
 */
 
+// ============================================
+// DATABASE CONNECTION
+// ============================================
+
 const db = mysql.createPool({
     host: 'localhost',
     user: 'auth_user',
@@ -48,13 +51,12 @@ const db = mysql.createPool({
 });
 /* A pool is for keeping a set of connections to the database open at all times for faster overall prosessing */
 
-
-
-
-
+// ============================================
+// AUTHENTICATION ROUTES
+// ============================================
 
 app.post('/signup', async (req, res) => {
-    const { email, password } =req.body;
+    const { email, password } = req.body;
 
     if (!email || !password) {
         return res.status(400).json({ message: "Email and password required."});
@@ -91,8 +93,6 @@ catch — if anything inside try breaks, this runs instead of crashing the serve
 console.error — prints the real error in your terminal so you can see what went wrong
 500 — means "server error", something went wrong on your end
 */
-
-
 
 app.post('/signin', async (req, res) => {
     const { email, password } = req.body;
@@ -134,12 +134,14 @@ const user = rows[0] — grabs the first result since email is unique there will
     }
 });
 
-
 app.post('/signout', (req, res) => {
     req.session.destroy();
     res.json({ message: 'Signed out.' });
 });
 
+// ============================================
+// SESSION & USER INFO ROUTES
+// ============================================
 
 app.get('/check-session', (req, res) => {
     if (req.session.userId) {
@@ -149,8 +151,6 @@ app.get('/check-session', (req, res) => {
     }
 });
 
-
-
 app.get('/getemail', (req, res) => {
     
     if (req.session.userId) {
@@ -158,10 +158,11 @@ app.get('/getemail', (req, res) => {
     } else {
         res.json({ email: null });
     }
-
-
 });
 
+// ============================================
+// PAGE ROUTES
+// ============================================
 
 app.get('/dashboard', (req, res) => {
     if (!req.session.userId) {
@@ -177,6 +178,10 @@ res.redirect — sends the user to a different page
 res.sendFile — if they are logged in, serve the dashboard page
 */
 
+// ============================================
+// PRODUCT ROUTES
+// ============================================
+
 app.get('/products', async (req, res) =>{
     try {
         const [rows] = await db.query('SELECT * FROM products');
@@ -186,5 +191,9 @@ app.get('/products', async (req, res) =>{
         res.status(500).json({ message: 'Server error. '});
     }
 });
+
+// ============================================
+// SERVER START
+// ============================================
 
 app.listen(5700, () => console.log('Server running on http://localhost:5700 and 10.2.3.26:5700'));
