@@ -59,7 +59,7 @@ app.post('/signup', async (req, res) => {
     const { email, password } = req.body;
 
     if (!email || !password) {
-        return res.status(400).json({ message: "Email and password required."});
+        return res.status(400).json({ message: "Email og passord kreves."});
     }
 
     /*
@@ -69,7 +69,7 @@ the if check — makes sure both fields are actually filled in before doing anyt
     try {
         const [rows] = await db.query('SELECT id FROM Users WHERE email = ?', [email]);
         if (rows.length > 0) {
-            return res.status(409).json({ message: 'Email already registered' });
+            return res.status(409).json({ message: 'Email allerede registrert' });
         }
             /*
     try — wraps the database code so if something goes wrong it doesn't crash the server. You'll see the matching catch at the end
@@ -81,7 +81,7 @@ the if check — makes sure both fields are actually filled in before doing anyt
         const hash = await bcrypt.hash(password, 12);
         await db.query('INSERT INTO Users (email, password_hash) VALUES (?, ?)', [email, hash]);
 
-        res.status(201).json({ message: 'Account created! You can now sign in.'});
+        res.status(201).json({ message: 'Brukeren er lagd, du kan nå logge in.'});
 
     } catch (err) {
         console.error(err);
@@ -101,7 +101,7 @@ app.post('/signin', async (req, res) => {
         const [rows] = await db.query(' SELECT * FROM Users WHERE email = ?', [email]);
 
         if (rows.length === 0) {
-            return res.status(401).json({ message: 'Invalid email or password.' });
+            return res.status(401).json({ message: 'Galt passord eller email.' });
         }
 
         const user = rows[0];
@@ -114,7 +114,7 @@ const user = rows[0] — grabs the first result since email is unique there will
     const match = await bcrypt.compare(password, user.password_hash);
 
     if (!match) {
-        return res.status(401).json({ message: ' Invalid email or password.' });
+        return res.status(401).json({ message: ' Galt passord eller email.' });
     }
 /*
     bcrypt.compare — takes the plain text password the user typed and compares it to the hash stored in your database. Returns true or false
@@ -186,14 +186,39 @@ app.get('/products', async (req, res) =>{
     try {
         const [rows] = await db.query('SELECT * FROM products');
         res.json(rows);
-    } catch (err) {
+    } 
+    catch (err) {
         console.error(err);
         res.status(500).json({ message: 'Server error. '});
     }
 });
 
+
+app.post('/favorites/add', async (req, res) => {
+    if (!req.session.userId) {
+        return res.status(401).json({ message: 'Vennligst log inn først' });
+    }
+
+    const { productId } = req.body;
+    const userId = req.session.userId;
+
+    try {
+        await db.query(
+            'INSERT INTO favorites (user_id, product_id) VALUES (?, ?)', [userId, productId]
+        );
+        res.json({ message: 'Lagt til favoritter' });
+        console.log('Lagt til favoritt')
+    } 
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server error' });
+    }
+});
+
+
+
 // ============================================
 // SERVER START
 // ============================================
 
-app.listen(5700, () => console.log('Server running on http://localhost:5700 and 10.2.3.26:5700'));
+app.listen(5700, () => console.log('Server running on http://localhost:5700 and (device_ip):5700'));
