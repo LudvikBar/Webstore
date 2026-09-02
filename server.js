@@ -215,6 +215,28 @@ app.post('/favorites/add', async (req, res) => {
     }
 });
 
+app.get('/favorite', async (req, res) => {
+    if (!req.session.userId){
+        return res.status(401).json({ message: 'Vennligst log inn først'});
+    }
+
+    
+    try {
+        const [favorites] = await db.query(
+            `SELECT p.* FROM products p
+            INNER JOIN favorites f ON p.id = f.product_id
+            WHERE f.user_id = ?`,
+            [req.session.userId]
+        );
+
+        res.json(favorites);
+    } 
+    catch (err) {
+        console.error(err);
+        res.status(500).json({ message: 'Server errro'});
+    }
+});
+
 
 
 // ============================================
